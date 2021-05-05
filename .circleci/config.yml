@@ -15,7 +15,7 @@ jobs:
           name: Print Hello
           command: |
             echo "Hello"
-            echo "Phil"
+            echo $name
   print_world:
     docker: 
       - image: circleci/node:13.8.0
