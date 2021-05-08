@@ -26,8 +26,8 @@ jobs:
     steps:
       - run: 
           name: Print output.txt
-          - attach_workspace:
-            at: /tmp
+      - attach_workspace:
+        at: /tmps
           command: |
             cat /tmp/output.txt
             
