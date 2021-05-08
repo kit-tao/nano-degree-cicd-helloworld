@@ -2,24 +2,24 @@
 version: 2.1
 # Use a package of configuration called an orb.
 # Orchestrate or schedule a set of jobs
-commands:
-  print_pipeline_id:
-    description: "Print environment workspace id"
-    steps:
-      - run: echo $CIRCLE_WORKFLOW_ID
-
-  
-jobs:     
-  invoke_command:
+jobs:
+  simulate_fail_step:
     docker: 
       - image: circleci/node:13.8.0
     steps:
-      - print_pipeline_id
+      - run: return 1
+  
+      - run:
+          name: Simulate Failed Tests
+          command: echo "Hello Error"
+          when: on_fail
+            
+  
             
 workflows:
   # Name the workflow "welcome"
-  begin:
+  welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - invoke_command
-      
+      - simulate_fail_step
+     
