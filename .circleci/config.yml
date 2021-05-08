@@ -14,19 +14,23 @@ jobs:
       - run: 
           name: Print Hello
           command: |
-            echo "Hello"
-            echo $NAME
+            echo "Hello creating content for the text file" > /tmp/output.txt
+      - persist_to_workspace:
+          root: /tmp/
+          paths:
+            - output.txt
+            
   print_world:
     docker: 
       - image: circleci/node:13.8.0
     steps:
       - run: 
-          name: Print world
+          name: Print output.txt
+          - attach_workspace:
+            at: /tmp
           command: |
-            echo "World"
-            echo "again"
-            ls -al 
-            echo "Source code listing"
+            cat /tmp/output.txt
+            
 workflows:
   # Name the workflow "welcome"
   welcome:
