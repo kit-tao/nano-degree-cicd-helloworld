@@ -2,32 +2,24 @@
 version: 2.1
 # Use a package of configuration called an orb.
 # Orchestrate or schedule a set of jobs
-jobs:
-  save_output:
+commands:
+  print_pipeline_id:
+    description: "Print environment workspace id"
+    steps:
+      - run: echo $CIRCLE_WORKFLOW_ID
+
+  
+jobs:     
+  invoke_command:
     docker: 
       - image: circleci/node:13.8.0
     steps:
-      - checkout
-      - run: echo "Hello creating content for the text file" > /tmp/output.txt
-      - persist_to_workspace:
-          root: /tmp/
-          paths:
-            - output.txt
-            
-  print_output:
-    docker: 
-      - image: circleci/node:13.8.0
-    steps:
-      - attach_workspace:
-          at: /tmp
-      - run: cat /tmp/output.txt
+      - print_pipeline_id
             
 workflows:
   # Name the workflow "welcome"
-  welcome:
+  begin:
     # Run the welcome/run job in its own container
     jobs:
-      - save_output
-      - print_output:
-          requires:
-            - save_output
+      - invoke_command
+      
